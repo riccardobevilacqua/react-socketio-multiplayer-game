@@ -1,0 +1,10 @@
+{
+  "watch": [
+    "backend"
+  ],
+  "ext": "ts,json",
+  "ignore": [
+    "backend/**/*.spec.ts"
+  ],
+  "exec": "npx ts-node index.ts"
+}
