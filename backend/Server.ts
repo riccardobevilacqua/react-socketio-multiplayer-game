@@ -10,16 +10,16 @@ export class Server {
 
     this.app.use(express.static(path.resolve('./') + '/build/frontend'));
 
-    this.app.get('/api', (req: Request, res: Response): void => {
+    this.app.get('/api', (_req: Request, res: Response): void => {
       res.send('You have reached the API!');
     });
 
-    this.app.get('*', (req: Request, res: Response): void => {
+    this.app.get('*', (_req: Request, res: Response): void => {
       res.sendFile(path.resolve('./') + '/build/frontend/index.html');
     });
   }
 
   public start(port: number): void {
-    this.app.listen(port, () => console.log(`Server listening on port ${port}!`));
+    this.app.listen(port, () => console.log(`Server listening on port ${port}`));
   }
 }
