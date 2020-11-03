@@ -8,7 +8,7 @@
     "start": "node ./dist",
     "build": "npx tsc && cd frontend && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "tsc && cd frontend && npm install && npm run build && cd .. && rm -rf ./frontend && rm -rf ./backend && mv ./build/* ."
+    "heroku-postbuild": "tsc && cd frontend && npm install && npm run build"
   },
   "keywords": [
     "react",
