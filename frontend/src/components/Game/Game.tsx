@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-import { IncomingMessages, OutgoingMessages } from '../../common/Messages';
+import { GameData, ClientEvents, ServerEvents } from '../../common/Constants';
 import { generateUserId } from '../../utils/utils';
 // import { MoveSelector } from '../MoveSelector/MoveSelector';
 // import { ScoreBoard } from '../ScoreBoard/ScoreBoard';
@@ -29,7 +29,7 @@ export const Game: React.FunctionComponent<{}> = () => {
   const [gameData, setGameData] = useState({});
 
   useEffect(() => {
-    socket.emit(OutgoingMessages.JOIN_SERVER, { userId });
+    socket.emit(ClientEvents.JOIN_SERVER, { userId });
   }, []);
 
   // const nextRound = () => {
@@ -39,7 +39,7 @@ export const Game: React.FunctionComponent<{}> = () => {
   //   }, roundTransitionTime);
   // }
 
-  socket.on(IncomingMessages.PLAYER_JOINED, function (data: any) {
+  socket.on(ServerEvents.PLAYER_JOINED, function (data: GameData) {
     if (data) {
       setGameData(data);
     }
