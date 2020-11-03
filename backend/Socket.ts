@@ -1,7 +1,6 @@
-import express from 'express';
-import socket from 'socket.io';
-
-
+export function joinServer() {
+  console.log('Joined');
+}
 
 // const express = require('express');
 // const socket = require('socket.io');
