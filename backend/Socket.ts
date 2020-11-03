@@ -69,19 +69,18 @@ export const handleGameSocket = ({
       //   }
 
       //   console.log(`Player-${userId} selected ${selection}`);
-    }
     } catch (err) {
-    console.log(err);
-  }
-});
+      console.log(err);
+    }
+  });
 
-socket.on(ClientEvents.DISCONNECT, function () {
-  try {
-    console.log(`Player-${gameSocket.userId} left`);
-  } catch (err) {
-    console.log(err);
-  }
-});
+  socket.on(ClientEvents.DISCONNECT, function () {
+    try {
+      console.log(`Player-${gameSocket.userId} left`);
+    } catch (err) {
+      console.log(err);
+    }
+  });
 }
 
 // const { updateScoreBoard } = require('./scoreboard');
