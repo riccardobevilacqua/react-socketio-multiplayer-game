@@ -77,9 +77,6 @@ export const Game: React.FunctionComponent<{}> = () => {
   return (
     <>
       <div>Welcome, Player-{gameIO.userId}</div>
-      <pre>
-        {JSON.stringify(gameData)}
-      </pre>
       <MoveSelector gameIO={gameIO} gameData={gameData} />
       <ScoreBoard gameData={gameData} />
     </>
