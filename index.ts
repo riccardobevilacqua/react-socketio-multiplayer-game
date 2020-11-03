@@ -1,11 +1,11 @@
 import { createServer } from './backend/Server';
 import { handleGameSocket } from './backend/Socket';
-import { IncomingMessages, GameSocket } from './backend/Constants';
+import { defaultPort, frontendPath, ClientEvents, GameSocket } from './backend/Constants';
 import { join as pathJoin } from 'path';
 import socket from 'socket.io';
 
-const staticPath = pathJoin(__dirname, './frontend');
-const port = process.env.PORT || 8080;
+const staticPath = pathJoin(__dirname, frontendPath);
+const port = process.env.PORT || defaultPort;
 
 const server = createServer({
   port,
@@ -14,7 +14,7 @@ const server = createServer({
 
 const io = socket(server);
 
-io.on(IncomingMessages.CONNECT, function (socket: GameSocket) {
+io.on(ClientEvents.CONNECT, function (socket: GameSocket) {
   handleGameSocket({
     socket,
     io

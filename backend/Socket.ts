@@ -1,15 +1,16 @@
 import { Server } from 'socket.io';
 import {
-  IncomingMessages,
-  OutgoingMessages,
+  ClientEvents,
+  ServerEvents,
   GameSocket,
   GameSocketHandlerProps,
+  GameData,
 } from './Constants';
 
 let gameSocket: GameSocket;
 let gameIO: Server;
-let gameData = {
-  scoreBoard: []
+let gameData: GameData = {
+  players: []
 };
 
 export const handleGameSocket = ({
@@ -19,17 +20,17 @@ export const handleGameSocket = ({
   gameSocket = socket;
   gameIO = io;
 
-  socket.on(IncomingMessages.JOIN_SERVER, function ({ userId }: { userId: string }) {
+  socket.on(ClientEvents.JOIN_SERVER, function ({ userId }: { userId: string }) {
     try {
       if (userId) {
         gameSocket.userId = userId;
-        if (!gameData.scoreBoard.find(item => item.userId === userId)) {
-          gameData.scoreBoard.push({
+        if (!gameData.players.find(item => item.userId === userId)) {
+          gameData.players.push({
             userId,
             score: 0,
             isWinner: false
           });
-          gameIO.emit(OutgoingMessages.PLAYER_JOINED, gameData);
+          gameIO.emit(ServerEvents.PLAYER_JOINED, gameData);
           console.log(`Player-${userId} joined`);
         }
       }
@@ -38,7 +39,7 @@ export const handleGameSocket = ({
     }
   });
 
-  socket.on(IncomingMessages.DISCONNECT, function () {
+  socket.on(ClientEvents.DISCONNECT, function () {
     try {
       console.log(`Player-${gameSocket.userId} left`);
     } catch (err) {
