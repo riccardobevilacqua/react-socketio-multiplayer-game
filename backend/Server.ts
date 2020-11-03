@@ -8,7 +8,7 @@ export class Server {
   constructor(app: Express) {
     this.app = app;
 
-    this.app.use(express.static(path.resolve('./') + '/build/frontend'));
+    this.app.use(express.static(path.resolve('./') + '/dist/frontend'));
 
     this.app.get('/api', (_req: Request, res: Response): void => {
       res.send('You have reached the API!');

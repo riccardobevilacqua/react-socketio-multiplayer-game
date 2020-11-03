@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "baseUrl": "./",
-    "outDir": "build",
+    "outDir": "dist",
     "target": "es6",
     "moduleResolution": "node",
     "esModuleInterop": true,
