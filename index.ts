@@ -1,9 +1,10 @@
-import { Server } from "./backend/Server";
+import { Server } from './backend/Server';
 import express from 'express';
+import * as path from 'path';
 
 const app = express();
-
+const staticPath = path.join(__dirname, './frontend')
 const port = 8080;
 
-const server = new Server(app);
+const server = new Server(app, staticPath);
 server.start(port);

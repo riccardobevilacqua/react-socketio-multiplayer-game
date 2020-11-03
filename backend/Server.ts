@@ -5,17 +5,18 @@ import * as path from 'path';
 export class Server {
   private app: Express;
 
-  constructor(app: Express) {
+  constructor(app: Express, staticPath: string) {
     this.app = app;
+    console.log(staticPath);
 
-    this.app.use(express.static(path.resolve('./') + '/dist/frontend'));
+    this.app.use(express.static(staticPath));
 
     this.app.get('/api', (_req: Request, res: Response): void => {
       res.send('You have reached the API!');
     });
 
     this.app.get('*', (_req: Request, res: Response): void => {
-      res.sendFile(path.resolve('./') + '/build/frontend/index.html');
+      res.sendFile(staticPath);
     });
   }
 
