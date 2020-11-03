@@ -4,7 +4,7 @@ import * as path from 'path';
 
 const app = express();
 const staticPath = path.join(__dirname, './frontend')
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 const server = new Server(app, staticPath);
 server.start(port);

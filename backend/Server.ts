@@ -20,7 +20,7 @@ export class Server {
     });
   }
 
-  public start(port: number): void {
+  public start(port: string | number): void {
     this.app.listen(port, () => console.log(`Server listening on port ${port}`));
   }
 }
