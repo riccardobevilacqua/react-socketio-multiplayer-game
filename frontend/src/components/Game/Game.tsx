@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import { GameData, ClientEvents, ServerEvents, GameIO } from '../../common/Constants';
 import { generateUserId } from '../../utils/utils';
 import { MoveSelector } from '../MoveSelector/MoveSelector';
+import { ScoreBoard } from '../ScoreBoard/ScoreBoard';
 // import { MoveSelector } from '../MoveSelector/MoveSelector';
 // import { ScoreBoard } from '../ScoreBoard/ScoreBoard';
 // import { PlayerScore } from '../ScoreCard/ScoreCard';
@@ -80,6 +81,7 @@ export const Game: React.FunctionComponent<{}> = () => {
         {JSON.stringify(gameData)}
       </pre>
       <MoveSelector gameIO={gameIO} gameData={gameData} />
+      <ScoreBoard gameData={gameData} />
     </>
   );
 };
