@@ -1,3 +1,5 @@
+import { Socket, Server } from 'socket.io';
+
 export enum IncomingMessages {
   CONNECT = 'connection',
   DISCONNECT = 'disconnect',
@@ -6,4 +8,13 @@ export enum IncomingMessages {
 
 export enum OutgoingMessages {
   PLAYER_JOINED = 'playerJoined',
+}
+
+export interface GameSocket extends Socket {
+  userId: string;
+}
+
+export interface GameSocketHandlerProps {
+  socket: GameSocket;
+  io: Server;
 }

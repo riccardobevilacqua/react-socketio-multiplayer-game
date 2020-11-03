@@ -1,6 +1,6 @@
 import { createServer } from './backend/Server';
-import { handleGameSocket, GameSocket } from './backend/Socket';
-import { IncomingMessages } from './backend/Constants';
+import { handleGameSocket } from './backend/Socket';
+import { IncomingMessages, GameSocket } from './backend/Constants';
 import { join as pathJoin } from 'path';
 import socket from 'socket.io';
 

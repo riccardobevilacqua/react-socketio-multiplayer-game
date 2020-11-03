@@ -1,17 +1,10 @@
-import { Socket, Server } from 'socket.io';
+import { Server } from 'socket.io';
 import {
   IncomingMessages,
   OutgoingMessages,
+  GameSocket,
+  GameSocketHandlerProps,
 } from './Constants';
-
-export interface GameSocket extends Socket {
-  userId: string;
-}
-
-export interface GameSocketHandlerProps {
-  socket: GameSocket;
-  io: Server;
-}
 
 let gameSocket: GameSocket;
 let gameIO: Server;
@@ -26,17 +19,19 @@ export const handleGameSocket = ({
   gameSocket = socket;
   gameIO = io;
 
-  socket.on(IncomingMessages.JOIN_SERVER, function ({ userId }) {
+  socket.on(IncomingMessages.JOIN_SERVER, function ({ userId }: { userId: string }) {
     try {
       if (userId) {
         gameSocket.userId = userId;
-        gameData.scoreBoard.push({
-          userId,
-          score: 0,
-          isWinner: false
-        });
-        gameIO.emit(OutgoingMessages.PLAYER_JOINED, gameData);
-        console.log(`Player-${userId} joined`);
+        if (!gameData.scoreBoard.find(item => item.userId === userId)) {
+          gameData.scoreBoard.push({
+            userId,
+            score: 0,
+            isWinner: false
+          });
+          gameIO.emit(OutgoingMessages.PLAYER_JOINED, gameData);
+          console.log(`Player-${userId} joined`);
+        }
       }
     } catch (err) {
       console.log(err);
