@@ -10,7 +10,9 @@ import {
 let gameSocket: GameSocket;
 let gameIO: Server;
 let gameData: GameData = {
-  players: []
+  players: [],
+  currentMoves: [],
+  isRoundInProgress: true,
 };
 
 export const handleGameSocket = ({
@@ -39,13 +41,47 @@ export const handleGameSocket = ({
     }
   });
 
-  socket.on(ClientEvents.DISCONNECT, function () {
+  socket.on(ClientEvents.SET_MOVE, function (payload: GameData) {
     try {
-      console.log(`Player-${gameSocket.userId} left`);
-    } catch (err) {
-      console.log(err);
+
+      // if (payload && payload.userId && payload.selection) {
+      //   const { userId, selection } = payload;
+
+      //   currentSelections.push({
+      //     userId,
+      //     selection,
+      //     score: 0
+      //   });
+
+      //   if (scoreBoard.length === currentSelections.length) {
+      //     scoreBoard = updateScoreBoard({
+      //       currentSelections,
+      //       scoreBoard,
+      //     });
+      //     const winner = scoreBoard[0].score >= victoryThreshold ? scoreBoard[0].userId : null;
+      //     io.emit('endRound', {
+      //       currentSelections,
+      //       scoreBoard,
+      //       winner,
+      //     });
+
+      //     currentSelections = [];
+      //   }
+
+      //   console.log(`Player-${userId} selected ${selection}`);
     }
-  });
+    } catch (err) {
+    console.log(err);
+  }
+});
+
+socket.on(ClientEvents.DISCONNECT, function () {
+  try {
+    console.log(`Player-${gameSocket.userId} left`);
+  } catch (err) {
+    console.log(err);
+  }
+});
 }
 
 // const { updateScoreBoard } = require('./scoreboard');

@@ -4,6 +4,7 @@ export enum ClientEvents {
   CONNECT = 'connection',
   DISCONNECT = 'disconnect',
   JOIN_SERVER = 'joinServer',
+  SET_MOVE = 'setMove',
 }
 
 export enum ServerEvents {
@@ -25,8 +26,15 @@ export interface Player {
   isWinner: boolean;
 }
 
+export interface Move {
+  userId: string;
+  selection: string;
+}
+
 export interface GameData {
   players: Player[];
+  currentMoves: Move[];
+  isRoundInProgress: boolean;
 }
 
 export const defaultPort = 8080;

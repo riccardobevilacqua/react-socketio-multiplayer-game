@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-import { GameData, ClientEvents, ServerEvents } from '../../common/Constants';
+import { GameData, ClientEvents, ServerEvents, GameIO } from '../../common/Constants';
 import { generateUserId } from '../../utils/utils';
+import { MoveSelector } from '../MoveSelector/MoveSelector';
 // import { MoveSelector } from '../MoveSelector/MoveSelector';
 // import { ScoreBoard } from '../ScoreBoard/ScoreBoard';
 // import { PlayerScore } from '../ScoreCard/ScoreCard';
@@ -14,8 +15,8 @@ export interface MoveSelection {
   score: number;
 }
 
-const socket = io();
-const userId = generateUserId();
+const gameIO: GameIO = io();
+gameIO.userId = generateUserId();
 
 // Time between two rounds (ms)
 // const roundTransitionTime = 2000;
@@ -26,10 +27,10 @@ export const Game: React.FunctionComponent<{}> = () => {
   // const [scores, setScores] = useState<PlayerScore[]>([]);
   // const [isRoundInProgress, setIsRoundInProgress] = useState(true);
   // const [winner, setWinner] = useState(null);
-  const [gameData, setGameData] = useState({});
+  const [gameData, setGameData] = useState<GameData | null>(null);
 
   useEffect(() => {
-    socket.emit(ClientEvents.JOIN_SERVER, { userId });
+    gameIO.emit(ClientEvents.JOIN_SERVER, { userId: gameIO.userId });
   }, []);
 
   // const nextRound = () => {
@@ -39,7 +40,7 @@ export const Game: React.FunctionComponent<{}> = () => {
   //   }, roundTransitionTime);
   // }
 
-  socket.on(ServerEvents.PLAYER_JOINED, function (data: GameData) {
+  gameIO.on(ServerEvents.PLAYER_JOINED, function (data: GameData) {
     if (data) {
       setGameData(data);
     }
@@ -74,10 +75,11 @@ export const Game: React.FunctionComponent<{}> = () => {
 
   return (
     <>
-      <div>Welcome, Player-{userId}</div>
+      <div>Welcome, Player-{gameIO.userId}</div>
       <pre>
         {JSON.stringify(gameData)}
       </pre>
+      <MoveSelector gameIO={gameIO} gameData={gameData} />
     </>
   );
 };
