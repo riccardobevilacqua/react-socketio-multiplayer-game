@@ -1,38 +1,37 @@
-import { Server } from 'socket.io';
 import {
   ClientEvents,
   ServerEvents,
-  GameSocket,
   GameSocketHandlerProps,
   GameData,
+  Move,
 } from './Constants';
+import { updateScores } from './Score';
 
-let gameSocket: GameSocket;
-let gameIO: Server;
-let gameData: GameData = {
-  players: [],
-  currentMoves: [],
-  isRoundInProgress: true,
-};
 
 export const handleGameSocket = ({
   socket,
   io,
 }: GameSocketHandlerProps) => {
-  gameSocket = socket;
-  gameIO = io;
+  const victoryThreshold = 2;
+
+  let gameData: GameData = {
+    players: [],
+    currentMoves: [],
+    isRoundInProgress: true,
+    winner: null,
+  };
 
   socket.on(ClientEvents.JOIN_SERVER, function ({ userId }: { userId: string }) {
     try {
       if (userId) {
-        gameSocket.userId = userId;
+        socket.userId = userId;
         if (!gameData.players.find(item => item.userId === userId)) {
           gameData.players.push({
             userId,
             score: 0,
             isWinner: false
           });
-          gameIO.emit(ServerEvents.PLAYER_JOINED, gameData);
+          io.emit(ServerEvents.PLAYER_JOINED, gameData);
           console.log(`Player-${userId} joined`);
         }
       }
@@ -41,11 +40,27 @@ export const handleGameSocket = ({
     }
   });
 
-  socket.on(ClientEvents.SET_MOVE, function (payload: GameData) {
+  socket.on(ClientEvents.SET_MOVE, function ({ userId, selection }: Move) {
     try {
+      if (userId && selection && !gameData.currentMoves.find(item => item.userId === userId)) {
+        gameData.currentMoves.push({
+          userId,
+          selection,
+        });
 
-      // if (payload && payload.userId && payload.selection) {
-      //   const { userId, selection } = payload;
+        console.log(`Player-${userId} selected ${selection}`);
+
+        if (gameData.players.length === gameData.currentMoves.length) {
+          gameData = updateScores(gameData);
+          gameData.winner = gameData.players[0].score >= victoryThreshold ? gameData.players[0].userId : null;
+
+          const completionEvent = gameData.winner ? ServerEvents.WIN : ServerEvents.ROUND_COMPLETED;
+
+          io.emit(completionEvent, gameData);
+
+          gameData.currentMoves = [];
+        }
+      }
 
       //   currentSelections.push({
       //     userId,
@@ -68,7 +83,6 @@ export const handleGameSocket = ({
       //     currentSelections = [];
       //   }
 
-      //   console.log(`Player-${userId} selected ${selection}`);
     } catch (err) {
       console.log(err);
     }
@@ -76,7 +90,7 @@ export const handleGameSocket = ({
 
   socket.on(ClientEvents.DISCONNECT, function () {
     try {
-      console.log(`Player-${gameSocket.userId} left`);
+      console.log(`Player-${socket.userId} left`);
     } catch (err) {
       console.log(err);
     }

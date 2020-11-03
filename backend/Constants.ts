@@ -9,6 +9,8 @@ export enum ClientEvents {
 
 export enum ServerEvents {
   PLAYER_JOINED = 'playerJoined',
+  ROUND_COMPLETED = 'roundCompleted',
+  WIN = 'win',
 }
 
 export interface GameSocket extends Socket {
@@ -29,12 +31,14 @@ export interface Player {
 export interface Move {
   userId: string;
   selection: string;
+  score?: number;
 }
 
 export interface GameData {
   players: Player[];
   currentMoves: Move[];
   isRoundInProgress: boolean;
+  winner: string | null;
 }
 
 export const defaultPort = 8080;
