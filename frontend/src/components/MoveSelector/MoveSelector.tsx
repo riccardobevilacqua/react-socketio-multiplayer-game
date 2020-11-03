@@ -46,12 +46,11 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
   gameIO,
   gameData,
 }) => {
-  const [selection, setSelection] = useState('');
-  // eslint-disable-next-line
+  const [selection, setSelection] = useState<string | null>(null);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    if (selection.length > 0) {
+    if (selection) {
       setDisabled(true);
       gameIO.emit(ClientEvents.SET_MOVE, {
         userId: gameIO.userId,
@@ -59,8 +58,7 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
       });
     }
   },
-    // eslint-disable-next-line
-    [selection]
+    [selection, gameIO]
   );
 
   useEffect(() => {

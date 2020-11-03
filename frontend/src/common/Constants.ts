@@ -7,6 +7,8 @@ export enum ClientEvents {
 
 export enum ServerEvents {
   PLAYER_JOINED = 'playerJoined',
+  ROUND_COMPLETED = 'roundCompleted',
+  WIN = 'win',
 }
 
 export interface GameIO extends SocketIOClient.Socket {
@@ -28,4 +30,5 @@ export interface GameData {
   players: Player[];
   currentMoves: Move[];
   isRoundInProgress: boolean;
+  winner: string | null;
 }
