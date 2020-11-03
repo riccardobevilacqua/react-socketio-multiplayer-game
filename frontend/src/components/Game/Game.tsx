@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
+import { IncomingMessages, OutgoingMessages } from '../../common/Messages';
 import { generateUserId } from '../../utils/utils';
 // import { MoveSelector } from '../MoveSelector/MoveSelector';
 // import { ScoreBoard } from '../ScoreBoard/ScoreBoard';
@@ -25,13 +26,11 @@ export const Game: React.FunctionComponent<{}> = () => {
   // const [scores, setScores] = useState<PlayerScore[]>([]);
   // const [isRoundInProgress, setIsRoundInProgress] = useState(true);
   // const [winner, setWinner] = useState(null);
+  const [gameData, setGameData] = useState({});
 
   useEffect(() => {
-    socket.emit('joinServer', { userId });
-  },
-    // eslint-disable-next-line
-    []
-  );
+    socket.emit(OutgoingMessages.JOIN_SERVER, { userId });
+  }, []);
 
   // const nextRound = () => {
   //   setTimeout(() => {
@@ -40,11 +39,11 @@ export const Game: React.FunctionComponent<{}> = () => {
   //   }, roundTransitionTime);
   // }
 
-  // socket.on('joinServer', function (data: PlayerScore[]) {
-  //   if (!!data) {
-  //     setScores(data);
-  //   }
-  // });
+  socket.on(IncomingMessages.PLAYER_JOINED, function (data: any) {
+    if (data) {
+      setGameData(data);
+    }
+  });
 
   // socket.on('endRound', function (data: any) {
   //   if (!!data) {
@@ -76,6 +75,9 @@ export const Game: React.FunctionComponent<{}> = () => {
   return (
     <>
       <div>Welcome, Player-{userId}</div>
+      <pre>
+        {JSON.stringify(gameData)}
+      </pre>
     </>
   );
 };

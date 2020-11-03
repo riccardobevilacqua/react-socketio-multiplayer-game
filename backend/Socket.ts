@@ -1,20 +1,59 @@
-export function joinServer() {
-  console.log('Joined');
+import { Socket, Server } from 'socket.io';
+import {
+  IncomingMessages,
+  OutgoingMessages,
+} from './Constants';
+
+export interface GameSocket extends Socket {
+  userId: string;
 }
 
-// const express = require('express');
-// const socket = require('socket.io');
+export interface GameSocketHandlerProps {
+  socket: GameSocket;
+  io: Server;
+}
+
+let gameSocket: GameSocket;
+let gameIO: Server;
+let gameData = {
+  scoreBoard: []
+};
+
+export const handleGameSocket = ({
+  socket,
+  io,
+}: GameSocketHandlerProps) => {
+  gameSocket = socket;
+  gameIO = io;
+
+  socket.on(IncomingMessages.JOIN_SERVER, function ({ userId }) {
+    try {
+      if (userId) {
+        gameSocket.userId = userId;
+        gameData.scoreBoard.push({
+          userId,
+          score: 0,
+          isWinner: false
+        });
+        gameIO.emit(OutgoingMessages.PLAYER_JOINED, gameData);
+        console.log(`Player-${userId} joined`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  socket.on(IncomingMessages.DISCONNECT, function () {
+    try {
+      console.log(`Player-${gameSocket.userId} left`);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+}
 
 // const { updateScoreBoard } = require('./scoreboard');
 
-// const port = 4000;
-// const app = express();
-
-// const server = app.listen(port, () => {
-//   console.log(`listening on port ${port}`);
-// });
-
-// const io = socket(server);
 // const victoryThreshold = 2;
 // let scoreBoard = [];
 // let currentSelections = [];

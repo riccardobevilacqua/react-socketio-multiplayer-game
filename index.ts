@@ -1,9 +1,9 @@
 import { createServer } from './backend/Server';
-import { joinServer } from './backend/Socket';
+import { handleGameSocket, GameSocket } from './backend/Socket';
+import { IncomingMessages } from './backend/Constants';
 import { join as pathJoin } from 'path';
 import socket from 'socket.io';
 
-// const app = express();
 const staticPath = pathJoin(__dirname, './frontend');
 const port = process.env.PORT || 8080;
 
@@ -14,6 +14,9 @@ const server = createServer({
 
 const io = socket(server);
 
-io.on('connection', function (socket: socket.Socket) {
-  socket.on('joinServer', joinServer);
+io.on(IncomingMessages.CONNECT, function (socket: GameSocket) {
+  handleGameSocket({
+    socket,
+    io
+  });
 });
