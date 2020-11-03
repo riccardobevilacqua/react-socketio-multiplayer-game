@@ -1,26 +1,26 @@
-import { Express, Request, Response } from 'express';
-import express from 'express';
-import * as path from 'path';
+// import { Express, Request, Response } from 'express';
+// import express from 'express';
 
-export class Server {
-  private app: Express;
+// export class Server {
+//   private app: Express;
 
-  constructor(app: Express, staticPath: string) {
-    this.app = app;
-    console.log(staticPath);
+//   constructor(app: Express, staticPath: string) {
+//     this.app = app;
 
-    this.app.use(express.static(staticPath));
+//     console.log(staticPath);
 
-    this.app.get('/api', (_req: Request, res: Response): void => {
-      res.send('You have reached the API!');
-    });
+//     this.app.use(express.static(staticPath));
 
-    this.app.get('*', (_req: Request, res: Response): void => {
-      res.sendFile(staticPath);
-    });
-  }
+//     this.app.get('/api', (_req: Request, res: Response): void => {
+//       res.send('You have reached the API!');
+//     });
 
-  public start(port: string | number): void {
-    this.app.listen(port, () => console.log(`Server listening on port ${port}`));
-  }
-}
+//     this.app.get('*', (_req: Request, res: Response): void => {
+//       res.sendFile(staticPath);
+//     });
+//   }
+
+//   public start(port: string | number): void {
+//     this.app.listen(port, () => console.log(`Server listening on port ${port}`));
+//   }
+// }
