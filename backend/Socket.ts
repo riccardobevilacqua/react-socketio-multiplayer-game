@@ -53,6 +53,7 @@ export const createSocket = (server: http.Server) => {
           if (gameData.players.length === gameData.currentMoves.length) {
             gameData = updateScores(gameData);
             gameData.winner = gameData.players[0].score >= victoryThreshold ? gameData.players[0].userId : null;
+            gameData.isRoundInProgress = false;
 
             const completionEvent = gameData.winner ? ServerEvents.WIN : ServerEvents.ROUND_COMPLETED;
 

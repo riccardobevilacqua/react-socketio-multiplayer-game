@@ -16,11 +16,9 @@ export interface MoveSelection {
   score: number;
 }
 
+const roundTransitionTime = 2000;
 const gameIO: GameIO = io();
 gameIO.userId = generateUserId();
-
-// Time between two rounds (ms)
-// const roundTransitionTime = 2000;
 
 export const Game: React.FunctionComponent<{}> = () => {
   // eslint-disable-next-line
@@ -44,6 +42,15 @@ export const Game: React.FunctionComponent<{}> = () => {
   gameIO.on(ServerEvents.PLAYER_JOINED, function (data: GameData) {
     if (data) {
       setGameData(data);
+    }
+  });
+
+  gameIO.on(ServerEvents.ROUND_COMPLETED, function (data: GameData) {
+    if (data) {
+      setGameData(data);
+      setTimeout(() => {
+        gameIO.emit(ClientEvents.REQUEST_NEXT_ROUND);
+      }, roundTransitionTime);
     }
   });
 

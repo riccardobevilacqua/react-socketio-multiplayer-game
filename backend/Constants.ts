@@ -5,6 +5,7 @@ export enum ClientEvents {
   DISCONNECT = 'disconnect',
   JOIN_SERVER = 'joinServer',
   SET_MOVE = 'setMove',
+  REQUEST_NEXT_ROUND = 'requestNextRound',
 }
 
 export enum ServerEvents {

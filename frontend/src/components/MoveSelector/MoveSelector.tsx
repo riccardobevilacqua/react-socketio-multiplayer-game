@@ -63,7 +63,7 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
 
   useEffect(() => {
     if (gameData?.isRoundInProgress) {
-      setDisabled(!gameData.isRoundInProgress);
+      setDisabled(false);
     }
   },
     [gameData?.isRoundInProgress]
