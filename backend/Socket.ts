@@ -10,16 +10,17 @@ import {
 import { generateNickname } from './Nickname';
 import { updateScores } from './Score';
 
-const victoryThreshold = 2;
-let gameData: GameData = {
-  players: [],
-  currentMoves: [],
-  isRoundInProgress: true,
-  winner: null,
-};
 
 export const createSocket = (server: http.Server) => {
   const serverIO = socket(server);
+  const victoryThreshold = 2;
+
+  let gameData: GameData = {
+    players: [],
+    currentMoves: [],
+    isRoundInProgress: true,
+    winner: null,
+  };
 
   serverIO.on(ClientEvents.CONNECT, function (serverSocket: GameSocket) {
     serverSocket.on(ClientEvents.JOIN_SERVER, function ({ userId }: { userId: string }) {
@@ -35,7 +36,7 @@ export const createSocket = (server: http.Server) => {
               isWinner: false
             });
             serverIO.emit(ServerEvents.PLAYER_JOINED, gameData);
-            console.log(`Player-${userId} joined`);
+            // console.log(`Player-${userId} joined`);
           }
         }
       } catch (err) {
@@ -51,11 +52,15 @@ export const createSocket = (server: http.Server) => {
             selection,
           });
 
-          console.log(`Player-${userId} selected ${selection}`);
+          // console.log(`Player-${userId} selected ${selection}`);
 
-          if (gameData.players.length === gameData.currentMoves.length) {
+          if (gameData.players?.length === gameData.currentMoves?.length) {
             gameData = updateScores(gameData);
-            gameData.winner = gameData.players[0].score >= victoryThreshold ? gameData.players[0].userId : null;
+
+            if (gameData.players[0]?.score >= victoryThreshold) {
+              gameData.winner = gameData.players[0].userId;
+            }
+
             gameData.isRoundInProgress = false;
 
             const completionEvent = gameData.winner ? ServerEvents.WIN : ServerEvents.ROUND_COMPLETED;
@@ -72,6 +77,27 @@ export const createSocket = (server: http.Server) => {
       try {
         gameData.currentMoves = [];
         gameData.isRoundInProgress = true;
+        gameData.players = [...gameData.players].filter(item => !!item.userId);
+        serverIO.emit(ServerEvents.ROUND_STARTED, gameData);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    serverSocket.on(ClientEvents.REQUEST_NEW_GAME, function () {
+      try {
+        gameData.currentMoves = [];
+        gameData.players = [...gameData.players].map(item => {
+          if (item) {
+            item.isWinner = false;
+            item.score = 0;
+          }
+
+          return item;
+        });
+        gameData.players = [...gameData.players].filter(item => !!item.userId);
+        gameData.winner = null;
+        gameData.isRoundInProgress = true;
         serverIO.emit(ServerEvents.ROUND_STARTED, gameData);
       } catch (err) {
         console.log(err);
@@ -80,7 +106,7 @@ export const createSocket = (server: http.Server) => {
 
     serverSocket.on(ClientEvents.DISCONNECT, function () {
       try {
-        console.log(`Player-${serverSocket.userId} left`);
+        // console.log(`Player-${serverSocket.userId} left`);
       } catch (err) {
         console.log(err);
       }

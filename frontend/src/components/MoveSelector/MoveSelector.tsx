@@ -46,20 +46,7 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
   gameIO,
   gameData,
 }) => {
-  const [selection, setSelection] = useState<string | null>(null);
   const [disabled, setDisabled] = useState(false);
-
-  useEffect(() => {
-    if (selection) {
-      setDisabled(true);
-      gameIO.emit(ClientEvents.SET_MOVE, {
-        userId: gameIO.userId,
-        selection,
-      });
-    }
-  },
-    [selection, gameIO]
-  );
 
   useEffect(() => {
     if (gameData?.isRoundInProgress) {
@@ -69,11 +56,14 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
     [gameData?.isRoundInProgress]
   )
 
-  const handleClick = (e: React.MouseEvent, item: string) => {
+  const handleClick = (e: React.MouseEvent, selection: string) => {
     e.stopPropagation();
     if (!disabled) {
-      console.log(`Selected: ${item}`);
-      setSelection(item);
+      setDisabled(true);
+      gameIO.emit(ClientEvents.SET_MOVE, {
+        userId: gameIO.userId,
+        selection,
+      });
     }
   };
 

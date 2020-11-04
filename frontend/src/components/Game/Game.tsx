@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
 
-import { GameData, ClientEvents, ServerEvents, GameIO } from '../../common/Constants';
-import { generateUserId } from '../../utils/utils';
+import { GameData, ClientEvents, ServerEvents } from '../../common/Constants';
+import { gameIO } from '../../common/GameIO';
 import { MoveSelector } from '../MoveSelector/MoveSelector';
 import { ScoreBoard } from '../ScoreBoard/ScoreBoard';
 
@@ -13,8 +12,6 @@ export interface MoveSelection {
 }
 
 const roundTransitionTime = 1500;
-const gameIO: GameIO = io();
-gameIO.userId = generateUserId();
 
 export const Game: React.FunctionComponent<{}> = () => {
   const [gameData, setGameData] = useState<GameData | null>(null);
@@ -22,9 +19,24 @@ export const Game: React.FunctionComponent<{}> = () => {
 
   useEffect(() => {
     gameIO.emit(ClientEvents.JOIN_SERVER, { userId: gameIO.userId });
+
+    gameIO.on(ServerEvents.PLAYER_JOINED, handlePlayerJoined);
+
+    gameIO.on(ServerEvents.ROUND_STARTED, handleRoundStarted);
+
+    gameIO.on(ServerEvents.ROUND_COMPLETED, handleRoundCompleted);
+
+    gameIO.on(ServerEvents.WIN, handleWin);
+
+    return () => {
+      gameIO.on(ServerEvents.PLAYER_JOINED, handlePlayerJoined);
+      gameIO.on(ServerEvents.ROUND_STARTED, handleRoundStarted);
+      gameIO.on(ServerEvents.ROUND_COMPLETED, handleRoundCompleted);
+      gameIO.off(ServerEvents.WIN, handleWin);
+    }
   }, []);
 
-  gameIO.on(ServerEvents.PLAYER_JOINED, function (data: GameData) {
+  function handlePlayerJoined(data: GameData) {
     if (data) {
       if (!nickname) {
         const player = data.players.find(item => item.userId === gameIO.userId);
@@ -36,34 +48,38 @@ export const Game: React.FunctionComponent<{}> = () => {
 
       setGameData(data);
     }
-  });
+  }
 
-  gameIO.on(ServerEvents.ROUND_STARTED, function (data: GameData) {
+  function handleRoundStarted(data: GameData) {
     if (data) {
       setGameData(data);
     }
-  });
+  }
 
-  gameIO.on(ServerEvents.ROUND_COMPLETED, function (data: GameData) {
+  function handleRoundCompleted(data: GameData) {
     if (data) {
       setGameData(data);
       setTimeout(() => {
         gameIO.emit(ClientEvents.REQUEST_NEXT_ROUND);
       }, roundTransitionTime);
     }
-  });
+  }
 
-  gameIO.on(ServerEvents.WIN, function (data: GameData) {
+  function handleWin(data: GameData) {
     if (data) {
       setGameData(data);
     }
-  });
+  }
+
+  // const handleSetMove = () => {
+
+  // };
 
   const handlePlayAgain = (e: React.MouseEvent) => {
     e.stopPropagation();
 
     gameIO.emit(ClientEvents.REQUEST_NEW_GAME);
-  }
+  };
 
   return (
     <>

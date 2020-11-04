@@ -48,10 +48,13 @@ export const updateScores = (gameData: GameData) => {
   }
 
   gameData.players = [...gameData.players]
-    .map(item => {
-      item.score += roundScores.find(current => item.userId === current.userId).score;
+    .map(player => {
+      if (player) {
+        const roundScore = roundScores.find(current => player.userId === current.userId);
 
-      return item;
+        player.score += roundScore?.score || 0;
+      }
+      return player;
     })
     .sort(sortByScore);
 
