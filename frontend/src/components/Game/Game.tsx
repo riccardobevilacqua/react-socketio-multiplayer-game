@@ -34,7 +34,10 @@ export const Game: React.FunctionComponent<{}> = () => {
       gameIO.on(ServerEvents.ROUND_COMPLETED, handleRoundCompleted);
       gameIO.off(ServerEvents.WIN, handleWin);
     }
-  }, []);
+  },
+    // eslint-disable-next-line
+    []
+  );
 
   function handlePlayerJoined(data: GameData) {
     if (data) {
