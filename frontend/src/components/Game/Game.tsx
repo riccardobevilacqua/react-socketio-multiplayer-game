@@ -74,10 +74,6 @@ export const Game: React.FunctionComponent<{}> = () => {
     }
   }
 
-  // const handleSetMove = () => {
-
-  // };
-
   const handlePlayAgain = (e: React.MouseEvent) => {
     e.stopPropagation();
 
