@@ -12,7 +12,7 @@ export interface MoveSelection {
   score: number;
 }
 
-const roundTransitionTime = 2000;
+const roundTransitionTime = 1500;
 const gameIO: GameIO = io();
 gameIO.userId = generateUserId();
 
@@ -38,6 +38,12 @@ export const Game: React.FunctionComponent<{}> = () => {
     }
   });
 
+  gameIO.on(ServerEvents.ROUND_STARTED, function (data: GameData) {
+    if (data) {
+      setGameData(data);
+    }
+  });
+
   gameIO.on(ServerEvents.ROUND_COMPLETED, function (data: GameData) {
     if (data) {
       setGameData(data);
@@ -47,7 +53,7 @@ export const Game: React.FunctionComponent<{}> = () => {
     }
   });
 
-  gameIO.on(ServerEvents.ROUND_STARTED, function (data: GameData) {
+  gameIO.on(ServerEvents.WIN, function (data: GameData) {
     if (data) {
       setGameData(data);
     }
@@ -57,6 +63,15 @@ export const Game: React.FunctionComponent<{}> = () => {
     <>
       <div>Welcome, {nickname}</div>
       <MoveSelector gameIO={gameIO} gameData={gameData} />
+      {
+        gameData?.winner &&
+        (
+          <div>
+            <p>{gameData.winner} wins!</p>
+            <button className="button">Play Again</button>
+          </div>
+        )
+      }
       <ScoreBoard gameData={gameData} />
     </>
   );
