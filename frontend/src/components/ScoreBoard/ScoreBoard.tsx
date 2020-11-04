@@ -23,9 +23,11 @@ export const ScoreBoard: React.FunctionComponent<ScoreBoardProps> = ({
   );
 
   return (
-    <div className="score-board">
-      {players.map((item: Player) => (
-        <ScoreCard player={item} key={item.userId} />
+    <div className="columns is-multiline">
+      {players.map((item: Player, index, array) => (
+        <div className={['column', array.length < 3 ? 'is-half' : 'is-one-third'].join(' ')}>
+          <ScoreCard player={item} rank={index} key={item.userId} />
+        </div>
       ))}
     </div>
   );

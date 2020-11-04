@@ -5,10 +5,12 @@ import { Avatar } from '../Avatar/Avatar';
 
 export interface ScoreCardProps {
   player: Player;
+  rank: number;
 }
 
 export const ScoreCard: React.FunctionComponent<ScoreCardProps> = ({
-  player
+  player,
+  rank,
 }) => {
   return (
     <div className="box">
@@ -18,11 +20,11 @@ export const ScoreCard: React.FunctionComponent<ScoreCardProps> = ({
         </div>
         <div className="media-content">
           <div className="content">
-            {player.nickname}
+            <span className="is-size-5 is-capitalized">{player.nickname}</span>
           </div>
         </div>
         <div className="media-right">
-          {player.score > 0 ? player.score : '-'}
+          <span className="is-size-5">{player.score > 0 ? player.score : '-'}</span>
         </div>
       </article>
     </div>

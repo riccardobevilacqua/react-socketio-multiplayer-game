@@ -79,18 +79,32 @@ export const Game: React.FunctionComponent<{}> = () => {
 
   return (
     <>
-      <div>Welcome, {nickname}</div>
-      <MoveSelector gameIO={gameIO} gameData={gameData} />
-      {
-        gameData?.winner &&
-        (
-          <div>
-            <p>{gameData.players[0].nickname} wins!</p>
-            <button className="button" onClick={e => handlePlayAgain(e)} >Play Again</button>
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title is-capitalized">Welcome, {nickname}</h1>
           </div>
-        )
-      }
-      <ScoreBoard gameData={gameData} />
+        </div>
+      </section>
+      <section className="section">
+        <div className="container">
+          <MoveSelector gameIO={gameIO} gameData={gameData} />
+          {
+            gameData?.winner &&
+            (
+              <div>
+                <p>{gameData.players[0].nickname} wins!</p>
+                <button className="button" onClick={e => handlePlayAgain(e)} >Play Again</button>
+              </div>
+            )
+          }
+        </div>
+      </section>
+      <section className="section">
+        <div className="container">
+          <ScoreBoard gameData={gameData} />
+        </div>
+      </section>
     </>
   );
 };
