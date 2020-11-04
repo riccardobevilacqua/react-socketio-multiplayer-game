@@ -18,7 +18,7 @@ export const ScoreCard: React.FunctionComponent<ScoreCardProps> = ({
         </div>
         <div className="media-content">
           <div className="content">
-            Player-{player.userId}
+            {player.nickname}
           </div>
         </div>
         <div className="media-right">
