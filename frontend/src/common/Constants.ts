@@ -9,6 +9,7 @@ export enum ClientEvents {
 export enum ServerEvents {
   PLAYER_JOINED = 'playerJoined',
   ROUND_COMPLETED = 'roundCompleted',
+  ROUND_STARTED = 'roundStarted',
   WIN = 'win',
 }
 

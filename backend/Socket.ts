@@ -61,10 +61,18 @@ export const createSocket = (server: http.Server) => {
             const completionEvent = gameData.winner ? ServerEvents.WIN : ServerEvents.ROUND_COMPLETED;
 
             serverIO.emit(completionEvent, gameData);
-
-            gameData.currentMoves = [];
           }
         }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    serverSocket.on(ClientEvents.REQUEST_NEXT_ROUND, function () {
+      try {
+        gameData.currentMoves = [];
+        gameData.isRoundInProgress = true;
+        serverIO.emit(ServerEvents.ROUND_STARTED, gameData);
       } catch (err) {
         console.log(err);
       }
