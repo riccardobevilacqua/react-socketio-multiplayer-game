@@ -59,6 +59,12 @@ export const Game: React.FunctionComponent<{}> = () => {
     }
   });
 
+  const handlePlayAgain = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    gameIO.emit(ClientEvents.REQUEST_NEW_GAME);
+  }
+
   return (
     <>
       <div>Welcome, {nickname}</div>
@@ -68,7 +74,7 @@ export const Game: React.FunctionComponent<{}> = () => {
         (
           <div>
             <p>{gameData.winner} wins!</p>
-            <button className="button">Play Again</button>
+            <button className="button" onClick={e => handlePlayAgain(e)} >Play Again</button>
           </div>
         )
       }

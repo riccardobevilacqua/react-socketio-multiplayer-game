@@ -4,6 +4,7 @@ export enum ClientEvents {
   JOIN_SERVER = 'joinServer',
   SET_MOVE = 'setMove',
   REQUEST_NEXT_ROUND = 'requestNextRound',
+  REQUEST_NEW_GAME = 'requestNewGame',
 }
 
 export enum ServerEvents {
