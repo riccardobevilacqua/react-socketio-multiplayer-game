@@ -79,7 +79,7 @@ export const Game: React.FunctionComponent<{}> = () => {
 
   return (
     <>
-      <section className="hero">
+      <section className="hero is-link is-bold">
         <div className="hero-body">
           <div className="container">
             <h1 className="title is-capitalized">Welcome, {nickname}</h1>
