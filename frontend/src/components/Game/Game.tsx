@@ -21,11 +21,8 @@ export const Game: React.FunctionComponent<{}> = () => {
     gameIO.emit(ClientEvents.JOIN_SERVER, { userId: gameIO.userId });
 
     gameIO.on(ServerEvents.PLAYER_JOINED, handlePlayerJoined);
-
     gameIO.on(ServerEvents.ROUND_STARTED, handleRoundStarted);
-
     gameIO.on(ServerEvents.ROUND_COMPLETED, handleRoundCompleted);
-
     gameIO.on(ServerEvents.WIN, handleWin);
 
     return () => {
@@ -88,7 +85,7 @@ export const Game: React.FunctionComponent<{}> = () => {
         gameData?.winner &&
         (
           <div>
-            <p>{gameData.winner} wins!</p>
+            <p>{gameData.players[0].nickname} wins!</p>
             <button className="button" onClick={e => handlePlayAgain(e)} >Play Again</button>
           </div>
         )
