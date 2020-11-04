@@ -25,6 +25,7 @@ export interface GameSocketHandlerProps {
 
 export interface Player {
   userId: string;
+  nickname: string;
   score: number;
   isWinner: boolean;
 }

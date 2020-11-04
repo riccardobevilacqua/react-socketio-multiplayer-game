@@ -18,6 +18,7 @@ export interface GameIO extends SocketIOClient.Socket {
 
 export interface Player {
   userId: string;
+  nickname: string;
   score: number;
   isWinner: boolean;
 }

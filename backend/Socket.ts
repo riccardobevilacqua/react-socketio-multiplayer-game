@@ -7,6 +7,7 @@ import {
   Move,
   GameSocket
 } from './Constants';
+import { generateNickname } from './Nickname';
 import { updateScores } from './Score';
 
 const victoryThreshold = 2;
@@ -26,8 +27,10 @@ export const createSocket = (server: http.Server) => {
         if (userId) {
           serverSocket.userId = userId;
           if (!gameData.players.find(item => item.userId === userId)) {
+            const nickname = generateNickname();
             gameData.players.push({
               userId,
+              nickname,
               score: 0,
               isWinner: false
             });

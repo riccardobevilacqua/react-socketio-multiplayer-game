@@ -27,6 +27,7 @@ export const Game: React.FunctionComponent<{}> = () => {
   // const [isRoundInProgress, setIsRoundInProgress] = useState(true);
   // const [winner, setWinner] = useState(null);
   const [gameData, setGameData] = useState<GameData | null>(null);
+  const [nickname, setNickname] = useState<string | null>(null);
 
   useEffect(() => {
     gameIO.emit(ClientEvents.JOIN_SERVER, { userId: gameIO.userId });
@@ -41,6 +42,14 @@ export const Game: React.FunctionComponent<{}> = () => {
 
   gameIO.on(ServerEvents.PLAYER_JOINED, function (data: GameData) {
     if (data) {
+      if (!nickname) {
+        const player = data.players.find(item => item.userId === gameIO.userId);
+
+        if (player?.nickname) {
+          setNickname(player.nickname);
+        }
+      }
+
       setGameData(data);
     }
   });
@@ -83,7 +92,7 @@ export const Game: React.FunctionComponent<{}> = () => {
 
   return (
     <>
-      <div>Welcome, Player-{gameIO.userId}</div>
+      <div>Welcome, {nickname}</div>
       <MoveSelector gameIO={gameIO} gameData={gameData} />
       <ScoreBoard gameData={gameData} />
     </>
