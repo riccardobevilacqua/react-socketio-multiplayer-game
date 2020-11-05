@@ -21,14 +21,16 @@ export const Game: React.FunctionComponent<{}> = () => {
     gameIO.emit(ClientEvents.JOIN_SERVER, { userId: gameIO.userId });
 
     gameIO.on(ServerEvents.PLAYER_JOINED, handlePlayerJoined);
+    gameIO.on(ServerEvents.PLAYER_LEFT, handlePlayerLeft);
     gameIO.on(ServerEvents.ROUND_STARTED, handleRoundStarted);
     gameIO.on(ServerEvents.ROUND_COMPLETED, handleRoundCompleted);
     gameIO.on(ServerEvents.WIN, handleWin);
 
     return () => {
-      gameIO.on(ServerEvents.PLAYER_JOINED, handlePlayerJoined);
-      gameIO.on(ServerEvents.ROUND_STARTED, handleRoundStarted);
-      gameIO.on(ServerEvents.ROUND_COMPLETED, handleRoundCompleted);
+      gameIO.off(ServerEvents.PLAYER_JOINED, handlePlayerJoined);
+      gameIO.off(ServerEvents.PLAYER_LEFT, handlePlayerLeft);
+      gameIO.off(ServerEvents.ROUND_STARTED, handleRoundStarted);
+      gameIO.off(ServerEvents.ROUND_COMPLETED, handleRoundCompleted);
       gameIO.off(ServerEvents.WIN, handleWin);
     }
   },
@@ -46,6 +48,12 @@ export const Game: React.FunctionComponent<{}> = () => {
         }
       }
 
+      setGameData(data);
+    }
+  }
+
+  function handlePlayerLeft(data: GameData) {
+    if (data) {
       setGameData(data);
     }
   }

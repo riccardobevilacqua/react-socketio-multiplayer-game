@@ -115,7 +115,8 @@ export const createSocket = (server: http.Server, sessionMiddleware: any) => {
 
     serverSocket.on(ClientEvents.DISCONNECT, function () {
       try {
-        // console.log(`Player-${serverSocket.userId} left`);
+        gameData.players = [...gameData.players].filter(item => item && item.userId !== serverSocket.userId);
+        serverIO.emit(ServerEvents.PLAYER_LEFT, gameData);
       } catch (err) {
         console.log(err);
       }
