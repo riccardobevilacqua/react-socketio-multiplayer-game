@@ -93,7 +93,7 @@ export const Game: React.FunctionComponent<{}> = () => {
             gameData?.winner &&
             (
               <div className="notification is-info mt-4">
-                <div className="is-uppercase">{gameData.players[0].nickname} wins!</div>
+                <p className="is-uppercase my-4">{gameData.players[0].nickname} wins!</p>
                 <button className="button" onClick={e => handlePlayAgain(e)} >Play Again</button>
               </div>
             )
