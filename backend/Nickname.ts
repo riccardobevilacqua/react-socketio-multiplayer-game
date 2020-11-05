@@ -3,8 +3,9 @@ import { uniqueNamesGenerator, Config, adjectives, colors, animals } from 'uniqu
 
 export const generateNickname = (): string => {
   const customConfig: Config = {
-    dictionaries: [adjectives, colors, animals],
+    dictionaries: [adjectives, animals],
     separator: ' ',
+    length: 2,
   };
 
   return uniqueNamesGenerator(customConfig);

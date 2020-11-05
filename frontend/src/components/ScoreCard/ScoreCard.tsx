@@ -15,7 +15,7 @@ export const ScoreCard: React.FunctionComponent<ScoreCardProps> = ({
   return (
     <div className="box">
       <div className="level is-mobile">
-        <div className="level-item has-text-centered">
+        <div className="level-item">
           <div>
             <Avatar text={player.userId} size="48" />
           </div>

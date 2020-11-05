@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
 
 import { ClientEvents, GameData, GameIO } from '../../common/Constants';
 
@@ -69,10 +70,16 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
 
   const moves = movesList.map(item => {
     const { name, image } = item;
+    const figureClassName = [
+      'image',
+      'px-1',
+      isMobile ? 'is-64x64' : 'is-128x128',
+      disabled ? 'is-disabled' : 'is-clickable'
+    ].join(' ');
 
     return (
       <figure
-        className={['image', 'is-64x64', disabled ? 'is-disabled' : 'is-clickable'].join(' ')}
+        className={figureClassName}
         onClick={e => handleClick(e, name)}
         key={name}
       >

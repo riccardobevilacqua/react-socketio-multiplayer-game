@@ -87,8 +87,8 @@ export const Game: React.FunctionComponent<{}> = () => {
         </div>
       </section>
       <section className="section">
+        <MoveSelector gameIO={gameIO} gameData={gameData} />
         <div className="container">
-          <MoveSelector gameIO={gameIO} gameData={gameData} />
           {
             gameData?.winner &&
             (
