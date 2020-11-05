@@ -9,6 +9,7 @@ A variation of the classic Rock Paper Scissors inspired by the popular TV Series
 This projects has been developed using:
 
 - NPM
+- Express
 - Socket.io
 - Create React App
   - React (with Hooks)
@@ -27,6 +28,8 @@ Every move beats two other moves, keeping the game at the same time balanced and
 Rules:
 
 >Scissors cuts paper, paper covers rock, rock crushes lizard, lizard poisons Spock, Spock smashes scissors, scissors decapitates lizard, lizard eats paper, paper disproves Spock, Spock vaporizes rock, and as it always has, rock crushes scissors.
+
+>Gain 5 points to win the game.
 
 The following diagram shows how it works:
 
