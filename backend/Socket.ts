@@ -12,7 +12,7 @@ import { updateScores } from './Score';
 
 
 export const createSocket = (server: http.Server, sessionMiddleware: any) => {
-  const victoryThreshold = 2;
+  const victoryThreshold = 5;
   const serverIO = socket(server);
 
   serverIO.use((socket, next) => {
