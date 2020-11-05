@@ -87,13 +87,13 @@ export const Game: React.FunctionComponent<{}> = () => {
         </div>
       </section>
       <section className="section">
-        <MoveSelector gameIO={gameIO} gameData={gameData} />
-        <div className="container">
+        <div className="container has-text-centered">
+          <MoveSelector gameIO={gameIO} gameData={gameData} />
           {
             gameData?.winner &&
             (
-              <div>
-                <p>{gameData.players[0].nickname} wins!</p>
+              <div className="notification is-info mt-4">
+                <div className="is-uppercase">{gameData.players[0].nickname} wins!</div>
                 <button className="button" onClick={e => handlePlayAgain(e)} >Play Again</button>
               </div>
             )
