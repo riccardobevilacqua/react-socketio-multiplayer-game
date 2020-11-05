@@ -17,8 +17,6 @@ export const Avatar: React.FunctionComponent<AvatarProps> = ({
   }, [text]);
 
   return (
-    <>
-      <svg ref={icon} data-jdenticon-value={text} width={size.toString()} height={size.toString()} />
-    </>
+    <svg ref={icon} data-jdenticon-value={text} width={size.toString()} height={size.toString()} />
   );
 };

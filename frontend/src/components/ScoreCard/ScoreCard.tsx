@@ -14,19 +14,31 @@ export const ScoreCard: React.FunctionComponent<ScoreCardProps> = ({
 }) => {
   return (
     <div className="box">
-      <article className="media">
-        <div className="media-left">
-          <Avatar text={player.userId} />
-        </div>
-        <div className="media-content">
-          <div className="content">
-            <span className="is-size-5 is-capitalized">{player.nickname}</span>
+      <div className="level is-mobile">
+        <div className="level-item has-text-centered">
+          <div>
+            <Avatar text={player.userId} size="48" />
           </div>
         </div>
-        <div className="media-right">
-          <span className="is-size-5">{player.score > 0 ? player.score : '-'}</span>
+        <div className="level-item has-text-centered">
+          <div>
+            <p className="heading">Player</p>
+            <p className="is-capitalized">{player.nickname}</p>
+          </div>
         </div>
-      </article>
+        <div className="level-item has-text-centered">
+          <div>
+            <p className="heading">Score</p>
+            <p>{player.score}</p>
+          </div>
+        </div>
+        <div className="level-item has-text-centered is-hidden-mobile">
+          <div>
+            <p className="heading">Rank</p>
+            <p>{rank}</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
