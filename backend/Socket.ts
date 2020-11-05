@@ -11,9 +11,13 @@ import { generateNickname } from './Nickname';
 import { updateScores } from './Score';
 
 
-export const createSocket = (server: http.Server) => {
-  const serverIO = socket(server);
+export const createSocket = (server: http.Server, sessionMiddleware: any) => {
   const victoryThreshold = 2;
+  const serverIO = socket(server);
+
+  serverIO.use((socket, next) => {
+    sessionMiddleware(socket.request, {}, next);
+  });
 
   let gameData: GameData = {
     players: [],
@@ -23,6 +27,11 @@ export const createSocket = (server: http.Server) => {
   };
 
   serverIO.on(ClientEvents.CONNECT, function (serverSocket: GameSocket) {
+    const session = serverSocket.request.session;
+
+    session.connections++;
+    session.save();
+
     serverSocket.on(ClientEvents.JOIN_SERVER, function ({ userId }: { userId: string }) {
       try {
         if (userId) {
