@@ -3,7 +3,7 @@ import { Game } from './components/Game/Game';
 
 export const App: React.FunctionComponent<{}> = () => {
   return (
-    <Game />
+    <Game data-testid="game" />
   );
 }
 

@@ -87,14 +87,14 @@ export const Game: React.FunctionComponent<{}> = () => {
 
   return (
     <>
-      <section className="hero is-link is-bold">
+      <section className="hero is-link is-bold" data-testid="hero">
         <div className="hero-body">
           <div className="container">
             <h1 className="title is-capitalized">Welcome, {nickname}</h1>
           </div>
         </div>
       </section>
-      <section className="section">
+      <section className="section" data-testid="controls">
         <div className="container has-text-centered">
           <MoveSelector gameIO={gameIO} gameData={gameData} />
           {
@@ -108,7 +108,7 @@ export const Game: React.FunctionComponent<{}> = () => {
           }
         </div>
       </section>
-      <section className="section">
+      <section className="section" data-testid="scores">
         <div className="container">
           <ScoreBoard gameData={gameData} />
         </div>
