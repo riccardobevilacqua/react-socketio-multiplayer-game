@@ -93,7 +93,6 @@ export const Game: React.FunctionComponent<{}> = () => {
   }
 
   function handleMoveAdded(data: GameData) {
-    // console.log("handleMoveAdded", data);
     if (data) {
       setGameData(data);
     }
