@@ -76,7 +76,6 @@ export const Game: React.FunctionComponent<{}> = () => {
   }
 
   function handleRoundCompleted(data: GameData) {
-    // console.log("handleRoundCompleted", data);
     if (data) {
       setGameData(data);
       setTimeout(() => {
