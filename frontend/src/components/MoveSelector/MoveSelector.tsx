@@ -56,7 +56,6 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
   }, [gameData?.isRoundInProgress]);
 
   const handleClick = (selection: string) => {
-    console.log(ClientEvents.SET_MOVE, selection);
     if (!disabled) {
       setDisabled(true);
       gameIO.emit(ClientEvents.SET_MOVE, {
