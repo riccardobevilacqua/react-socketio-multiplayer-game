@@ -59,7 +59,7 @@ export const createSocket = (server: http.Server, sessionMiddleware: any) => {
             userId,
             selection,
           });
-
+          serverIO.emit(ServerEvents.MOVE_ADDED, gameData);
           if (gameData.players?.length === gameData.currentMoves?.length) {
             gameData = updateScores(gameData);
 

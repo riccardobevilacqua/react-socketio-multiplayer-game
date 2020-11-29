@@ -13,6 +13,7 @@ export enum ServerEvents {
   ROUND_COMPLETED = 'roundCompleted',
   ROUND_STARTED = 'roundStarted',
   WIN = 'win',
+  MOVE_ADDED = 'moveAdded',
 }
 
 export interface GameIO extends SocketIOClient.Socket {

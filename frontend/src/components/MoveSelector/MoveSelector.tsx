@@ -35,7 +35,7 @@ const movesList: MoveOption[] = [
   {
     name: 'spock',
     image: spockSVG,
-  }
+  },
 ];
 
 export interface MoveSelectorProps {
@@ -53,12 +53,9 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
     if (gameData?.isRoundInProgress) {
       setDisabled(false);
     }
-  },
-    [gameData?.isRoundInProgress]
-  )
+  }, [gameData?.isRoundInProgress]);
 
-  const handleClick = (e: React.MouseEvent, selection: string) => {
-    e.stopPropagation();
+  const handleClick = (selection: string) => {
     if (!disabled) {
       setDisabled(true);
       gameIO.emit(ClientEvents.SET_MOVE, {
@@ -68,19 +65,19 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
     }
   };
 
-  const moves = movesList.map(item => {
+  const moves = movesList.map((item) => {
     const { name, image } = item;
     const figureClassName = [
       'image',
       'px-1',
       isMobile ? 'is-64x64' : 'is-128x128',
-      disabled ? 'is-disabled' : 'is-clickable'
+      disabled ? 'is-disabled' : 'is-clickable',
     ].join(' ');
 
     return (
       <figure
         className={figureClassName}
-        onClick={e => handleClick(e, name)}
+        onClick={() => !disabled && handleClick(name)}
         key={name}
       >
         <img src={image} alt={name} />
@@ -88,9 +85,5 @@ export const MoveSelector: React.FunctionComponent<MoveSelectorProps> = ({
     );
   });
 
-  return (
-    <div className="move-selector">
-      {moves}
-    </div>
-  );
+  return <div className="move-selector">{moves}</div>;
 };
