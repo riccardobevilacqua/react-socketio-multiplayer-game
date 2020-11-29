@@ -46,7 +46,6 @@ export const Game: React.FunctionComponent<{}> = () => {
   );
 
   function handlePlayerJoined(data: GameData) {
-    // console.log("handlePlayerJoined", data);
     if (data) {
       if (!player) {
         const player = data.players.find(
