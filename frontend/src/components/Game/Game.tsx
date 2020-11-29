@@ -68,7 +68,6 @@ export const Game: React.FunctionComponent<{}> = () => {
   }
 
   function handleRoundStarted(data: GameData) {
-    // console.log("handleRoundStarted", data);
     if (data) {
       setGameData(data);
     }
