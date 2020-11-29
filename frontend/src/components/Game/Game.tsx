@@ -61,7 +61,6 @@ export const Game: React.FunctionComponent<{}> = () => {
   }
 
   function handlePlayerLeft(data: GameData) {
-    // console.log("handlePlayerLeft", data);
     if (data) {
       setGameData(data);
     }
